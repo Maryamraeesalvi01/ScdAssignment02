@@ -1,5 +1,6 @@
 package ScdAssignment02;
 import java.util.*;
+//  class to handle two types of excepption
 class ExceptionalHandling
 {
     public static void throwEmptyStackException()
@@ -11,6 +12,7 @@ class ExceptionalHandling
         throw new IllegalArgumentException(m);
     }
 }
+// Node class 
 class node<t>
 {
     t data;
@@ -21,8 +23,10 @@ class node<t>
         this.next=null;
     }
 }
+// generic Stack Class with push pull isempty and getsize
 class genericStack<t>
 {
+    Scanner scanner = new Scanner(System.in);
     private node<t>top;
     private int size;
     public genericStack()
@@ -30,9 +34,9 @@ class genericStack<t>
         top=null;
         //size=0;
     }
-    public void push(int size,t value)
+    public void push(int size,t s)
     {
-        node<t> newnode=new node<>(value);
+        node<t> newnode=new node<>(s);
         newnode.next=top;
         top=newnode;
         this.size=size;
@@ -57,22 +61,46 @@ class genericStack<t>
         size--;
         return value;
     }
+    /* public void addvalues()
+    {
+        for(int i=0; i<=size; i++)
+    {
+        if(scanner.hasNextInt())
+        {
+         
+        int s=scanner.nextInt();
+        push(size,s);
+        System.out.println("Value Pushed Into Stack!");
+        }
+    }
+    } */
 }
+// Main with integer type stack
 public class StackMain 
 {
    public static void main(String[]args)
    {
-    genericStack<String> stack1=new genericStack<>();
+    genericStack<Integer> stack1=new genericStack<>();
     Scanner scanner = new Scanner(System.in);
     int size ;
     System.out.println("Enter Stack size: ");
     size=scanner.nextInt();
     System.out.println("Enter Stack Vaalues: ");
+    // taking values in int form and giving illegalinputtype exception
     for(int i=0; i<=size; i++)
     {
-        String s=scanner.nextLine();
+        if(scanner.hasNextInt())
+        {
+        int s=scanner.nextInt();
         stack1.push(size,s);
         System.out.println("Value Pushed Into Stack!");
+        }
+        else
+        {
+            ExceptionalHandling.throwInvalidInputException("Error: Invalid Input - Please provide an integer value.");
+            //scanner.nextLine();
+            //i--;
+        }
     }
     int choice;
     boolean Quit=false;
@@ -90,12 +118,12 @@ public class StackMain
         case 1:
         try
         {
-            String popedValue;
+            int popedValue;
             popedValue=stack1.pop();
             System.out.println("Value Poped From The Stack!");
         }catch(EmptyStackException E)
         {
-            System.err.println("Error: EmptyStackExceptionc - cannot pop from empty Stack");
+            System.err.println("Error: EmptyStackException - cannot pop from empty Stack");
         }
         break;
         case 2:
